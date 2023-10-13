@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getMovieReviews } from 'API/api';
+import { getMovieReviews } from 'components/API/api';
+import { List, Item, Span, Text } from './Reviews.styled';
 
 export const Reviews = () => {
   const { movieId } = useParams();
@@ -21,16 +22,18 @@ export const Reviews = () => {
   return reviews.length === 0 ? (
     <h3>No Reviews</h3>
   ) : (
-    <ul>
+    <List>
       {reviews.map(({ id, author, content }) => (
-        <li key={id}>
-          <p>
-            <span>Author:</span>
+        <Item key={id}>
+          <Text>
+            <Span>Author:</Span>
             {author}
-          </p>
+          </Text>
           <p>{content}</p>
-        </li>
+        </Item>
       ))}
-    </ul>
+    </List>
   );
 };
+
+export default Reviews;

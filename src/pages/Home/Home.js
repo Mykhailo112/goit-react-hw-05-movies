@@ -1,8 +1,9 @@
-import { getTrendingMovies } from 'API/api';
+import { getTrendingMovies } from 'components/API/api';
 import { useEffect, useState } from 'react';
-import { FilmList } from 'components/FilmList';
+import { FilmList } from 'components/FilmList/FilmList';
+import { Title } from './Home.styled';
 
-export const Home = () => {
+const Home = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -11,8 +12,10 @@ export const Home = () => {
 
   return (
     <>
-      <h1>Tranding today</h1>
+      <Title>Tranding today</Title>
       <FilmList movies={movies} />
     </>
   );
 };
+
+export default Home;

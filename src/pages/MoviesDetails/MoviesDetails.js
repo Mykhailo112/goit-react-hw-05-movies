@@ -1,13 +1,26 @@
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState, useRef } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
-import { getMovieDetails } from 'API/api';
+import { getMovieDetails } from 'components/API/api';
+import { PosterURL, Pleceholder } from 'components/Image/image';
+import { Loader } from 'components/Loader/Loader';
+import {
+  MainDiv,
+  Poster,
+  BackLink,
+  InformationDiv,
+  OverviewText,
+  DetailsDiv,
+  InformationText,
+  InformationList,
+  InformationItem,
+} from './MoviesDetails.styled';
 
 export const MoviesDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState('');
   const location = useLocation();
 
-  const backLink = location?.state?.from ?? '/movies';
+  const backLink = useRef(location.state?.from ?? '/movies');
   useEffect(() => {
     const fetchMovieById = async () => {
       try {
@@ -21,44 +34,52 @@ export const MoviesDetails = () => {
   }, [movieId]);
 
   return (
-    <>
-      <span>
-        <Link to={backLink}>Go back</Link>
-      </span>
-      <div>
-        <img
-          src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
+    <MainDiv>
+      <BackLink>
+        <Link to={backLink.current}>Go back</Link>
+      </BackLink>
+      <InformationDiv>
+        <Poster
+          src={`${
+            movie.poster_path
+              ? PosterURL + movie.poster_path
+              : Pleceholder + '?text=' + movie.original_title
+          }`}
           alt={movie.original_title}
         />
-        <div>
+        <DetailsDiv>
           <h2>{movie.original_title}</h2>
           <h3>Rating:{Math.round(movie.vote_average)}</h3>
-          <h3>Rating:Overview</h3>
-          <p>{movie.overview}</p>
+          <h3>Overview</h3>
+          <OverviewText>{movie.overview}</OverviewText>
           <h3>Genres</h3>
           <ul>
             {movie.genres?.map(genre => (
               <li key={genre.id}>{genre.name} </li>
             ))}
           </ul>
-        </div>
-      </div>
-      <h2>Additional Information</h2>
-      <ul>
-        <li>
-          <Link to="cast" state={location.state}>
-            Cast
-          </Link>
-        </li>
-        <li>
-          <Link to="reviews" state={location.state}>
-            Reviews
-          </Link>
-        </li>
-      </ul>
-      <Suspense fallback={<div>Loading subpage...</div>}>
+        </DetailsDiv>
+      </InformationDiv>
+      <InformationText>Additional Information</InformationText>
+      <InformationList>
+        <InformationItem>
+          <Link to="cast">Cast</Link>
+        </InformationItem>
+        <InformationItem>
+          <Link to="reviews">Reviews</Link>
+        </InformationItem>
+      </InformationList>
+      <Suspense
+        fallback={
+          <div>
+            <Loader />
+          </div>
+        }
+      >
         <Outlet />
       </Suspense>
-    </>
+    </MainDiv>
   );
 };
+
+export default MoviesDetails;

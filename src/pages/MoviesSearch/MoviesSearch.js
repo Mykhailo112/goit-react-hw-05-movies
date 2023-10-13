@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Form } from 'components/Form';
-import { FilmList } from 'components/FilmList';
-import { getSearchMovie } from 'API/api';
+import { Form } from 'components/Form/Form';
+import { FilmList } from 'components/FilmList/FilmList';
+import { getSearchMovie } from 'components/API/api';
 
 export const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -30,3 +30,5 @@ export const Movies = () => {
     </>
   );
 };
+
+export default Movies;

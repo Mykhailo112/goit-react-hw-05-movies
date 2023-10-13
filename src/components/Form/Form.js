@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FormContainer, Input } from './Form.styled';
 
 export const Form = ({ setSearchParams }) => {
   const [query, setQuery] = useState('');
@@ -11,8 +12,8 @@ export const Form = ({ setSearchParams }) => {
     setQuery(value);
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <FormContainer onSubmit={handleSubmit}>
+      <Input
         type="text"
         placeholder="Name movie"
         autoFocus
@@ -22,6 +23,6 @@ export const Form = ({ setSearchParams }) => {
       <button type="submit" disabled={!query}>
         Search
       </button>
-    </form>
+    </FormContainer>
   );
 };
