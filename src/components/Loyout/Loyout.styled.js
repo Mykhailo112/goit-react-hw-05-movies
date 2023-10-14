@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const NavList = styled.ul`
@@ -13,3 +14,7 @@ export const NavItem = styled.li`
 export const Header = styled.header`
   background-color: grey;
 `;
+export const Link = styled(NavLink)`
+&.active{
+  color:green
+}`

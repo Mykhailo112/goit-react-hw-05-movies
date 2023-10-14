@@ -13,9 +13,12 @@ import {
   InformationText,
   InformationList,
   InformationItem,
+  ErrorMsg,
 } from './MoviesDetails.styled';
 
 export const MoviesDetails = () => {
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { movieId } = useParams();
   const [movie, setMovie] = useState('');
   const location = useLocation();
@@ -24,10 +27,12 @@ export const MoviesDetails = () => {
   useEffect(() => {
     const fetchMovieById = async () => {
       try {
+        setLoading(true);
+        setError(false);
         const movieById = await getMovieDetails(movieId);
         setMovie(movieById);
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        setError(true);
       }
     };
     fetchMovieById();
@@ -38,6 +43,9 @@ export const MoviesDetails = () => {
       <BackLink>
         <Link to={backLink.current}>Go back</Link>
       </BackLink>
+      {error && !loading && (
+        <ErrorMsg>❌ Something went wrong,try reload page</ErrorMsg>
+      )}
       <InformationDiv>
         <Poster
           src={`${

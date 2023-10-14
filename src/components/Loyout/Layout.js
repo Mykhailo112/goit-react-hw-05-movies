@@ -1,7 +1,7 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
 import { Loader } from 'components/Loader/Loader';
-import { NavList, NavItem, Header } from './Loyout.styled';
+import { NavList, NavItem, Header, Link } from './Loyout.styled';
 
 export const Layout = () => {
   return (
